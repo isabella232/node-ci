@@ -84,6 +84,7 @@ exports.info = function(req, res) {
     });
 
   } else {
+    console.log('we are here')
     res.render('heroku_info', { data: data }, function(err, html) {
       if (err) return res.render('error', { title: '', message: err.message });
       res.send(html);
@@ -120,10 +121,19 @@ exports.deploy = function(req, res) {
 
   var jsonData = JSON.stringify( { payload: JSON.stringify(data) } );
 
+  var host = req.headers.host;
+  var port = 80;
+
+  if (host.indexOf(':') > 0) {
+     var d = host.split(":");
+     host = d[0];
+     port = d[1];
+  }
+
   // TODO: Abstract into a different function.
   var options = {
-    host:   'local.node.ci',
-    port:   3005,
+    host:   host,
+    port:   port,
     path:   '/build2',
     method: 'POST',
     headers: {
@@ -137,7 +147,9 @@ exports.deploy = function(req, res) {
     var chunkData = '';
     result.on('data', function(chunk) { chunkData = chunkData + chunk; });
     result.on('end', function() {
-      res.send(chunkData);
+      var data = JSON.parse(chunkData);
+
+      res.redirect('/heroku/test?status=1');
       return;
     });
   });
@@ -203,13 +215,16 @@ exports.catchCommitPayloadv3 = function(req, res) {
     },
     gitDir: function(callback) {
       // Set the folder where we might find the repo.
-      var dir = GLOBAL.root + '/tmp/' + gitURL;
+      var repoName = gitURL.split('/')[1];
+
+      var dir = GLOBAL.root + '/tmp/' + repoName;
 
       console.log('Looking for Local Git Repo')
 
       cloneFetchGITRepo(gitURL, dir, function(err, data) {
         console.log('Clone/Fetch Result', err, data)
         if (err) return callback(null);
+
         callback(null, dir);
       });
 
@@ -220,12 +235,9 @@ exports.catchCommitPayloadv3 = function(req, res) {
     var localGitPath = results.gitDir;
     var branchName   = branch;
 
-    console.log('Async Results', results);
-
     var sha = load.after;
 
     pushToHeroku(herokuGITUri, localGitPath, branchName, sha, function(err, stdout, stderr) {
-      console.log('Error', err);
       // console.log('STDout', stdout);
       // console.log('STDerr', stderr);
 
@@ -233,11 +245,12 @@ exports.catchCommitPayloadv3 = function(req, res) {
         err: err,
         stdout: stdout,
         stderr: stderr
-      }
+      };
     
       console.log('Final Push Data', data);
+      var status = stderr.indexOf('Launching...') > 0;
 
-      return res.send(data);
+      res.json({ status: status, data: data });
     });
   });
 
@@ -288,19 +301,15 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
 */
 var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
+  if (!sha) sha = 'HEAD';
+
   var cmd = 'GIT_WORK_TREE=' + localGitPath + ';' +
             'git --git-dir=' + localGitPath + '/.git fetch origin; ' +
             'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';' + 
-            'git --git-dir=' + localGitPath + '/.git push  '+ herokuGitUri + ' refs/heads/' + branchName + ':master --force';
-
-  //var cmd2 = 'GIT_WORK_TREE=' + localGitPath + ';' + 
-  //          'git --git-dir=' + localGitPath + '/.git fetch origin; ' +
-  //          'git --git-dir=' + localGitPath + '/.git checkout -b ' + t + ' origin/' + branchName + '; ' +
-  //          'git --git-dir=' + localGitPath + '/.git push  '+ herokuGitUri + ' ' + t + ':master --force';
-
-  // --git-dir=' + localGitPath + '/.git
+            'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
   console.log('Push Command to Heroku: ', cmd);
+
   var exec = require('child_process').exec;
   exec(cmd, cb);
 }

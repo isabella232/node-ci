@@ -273,54 +273,10 @@ exports.buildCommitSlug = function(req, res) {
 
 exports.listProcesses = function(req, res) {
 
-  async.parallel({
-    builds: function(callback) {
+  if (req.session.logged_in == true) 
+    return res.redirect("heroku/apps");
 
-      util.getBuilds(function(err, data) {
-        callback(null, data);
-      });
-
-    },
-    sites: function(callback) {
-
-      util.getSites(function(err, data) {
-        callback(null, data);
-      });
-
-    },
-    activity: function(callback) {
-
-      var query = {};
-      var options = { "sort": [['timestamp','desc']] };
-
-      var collection = new mongodb.Collection(DbManager.getDb(), 'logs');
-      collection.find(query, options).limit(5).toArray(function(err, data) {
-        if (err || !data) {
-          callback(null, 'No Episiodes found.');
-          return
-        }
-
-        callback(null, data);
-      });
-
-    
-    },
-    branches: function(callback) {
-
-      if (!req.session.user) {
-        callback(null, null)
-      } else {
-        util.getBranches(req.session, function(err, data) {
-          callback(null, data);
-        });
-      }
-
-    }
-  }, function(err, data) {
-
-    res.render('list', { branches: data.branches, activity: data.activity, sites: data.sites, builds: data.builds, messages: GLOBAL.messages } );
-    GLOBAL.messages = [];
-  });
+  res.render("list3");
 
 }
 

@@ -28,13 +28,19 @@ block content
       .control-group
         label(class="control-label", for="appname") Choose a Repo
         .controls
-          select(name="repoPath", id="repoPath", onchange="setRepoInURL(this);") 
+          select(name="repoPath", id="repoPath", oknchange="setRepoInURL(this);") 
             option(value="") Choose...
             each repo in data.repositories
               - if (data.path == repo.path) 
                 option(value="#{repo.path}", selected) #{repo.name}
               - else
                 option(value="#{repo.path}") #{repo.name}
+
+    .row
+      .control-group
+        label(class="control-label", for="appname") Choose a Branch
+        .controls
+          input(name="repoBranch") 
 
     - if (data.path) 
       .row

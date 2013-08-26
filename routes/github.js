@@ -352,7 +352,6 @@ exports.branches = function(req, res) {
 
   }
 
-
 }
 
 exports.makeReferenceDialog = function(req, res) {

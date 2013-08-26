@@ -1,0 +1,23 @@
+extends layout
+
+block header
+
+block content
+ 
+  - if (!session.user) 
+      .well
+        .row
+          .span1.hidden-phone
+            a(href="/github_login")
+              img(width="64", class="hidden-phone", src="/assets/images/octocat.png")
+          .span5
+            p You are not currently logged into this service. To get more access you need 
+              to use your github account to either login in or request access. 
+              br
+              br
+              a(class="btn btn-primary", href="/github_login") Continue >>
+
+  p
+    | Welcome to the Node-CI Server. Please login to access builds and branch sites. 
+
+  
