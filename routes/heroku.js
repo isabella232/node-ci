@@ -290,7 +290,7 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
   console.log('Looking for ' + gitDir + ' (' + gitUri + ')');
 
   if (require('fs').existsSync(gitDir)) { 
-    console.log('Removing a folder. ' + gitDir);
+    console.log('Found a folder with the repo ' + gitDir);
     fs.rmdirSync(gitDir)
   } 
 
@@ -299,9 +299,11 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
 
   console.log('Clone Command ' + cmd);
 
+
   var exec = require('child_process').exec;
   exec(cmd, cb);      
 
+}
 
 /*
 
