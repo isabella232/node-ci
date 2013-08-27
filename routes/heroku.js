@@ -222,7 +222,13 @@ exports.catchCommitPayloadv3 = function(req, res) {
       // Set the folder where we might find the repo.
       var repoName = gitURL.split('/')[1];
 
-      var dir = GLOBAL.root + '/tmp/' + smRepoName;
+      console.log('')
+      console.log('wheat is the global root', GLOBAL.root);
+
+      var dir = path.resolve(__dirname, '/tmp/' + smRepoName);
+
+            console.log('')
+      //var dir = GLOBAL.root + '/tmp/' + smRepoName;
 
       console.log('Looking for Local Git Repo', smRepoName)
 
