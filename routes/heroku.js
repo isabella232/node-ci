@@ -136,6 +136,7 @@ exports.deploy = function(req, res) {
     host:   host,
     port:   port,
     path:   '/build2',
+    timeout: 600000,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -295,6 +296,7 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
               'git --git-dir=' + gitDir + '/.git --work-tree=' + gitDir + ' fetch origin';
   } else {
     console.log('Cloning the Repo ' + gitDir);
+    console.log('asdf')
     // var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';'
     var cmd = 'git clone https://npr-ci:25thomson@github.com/nprds/composerAPI.git /app/tmp/composerapi;' +
               'ls /app/tmp/composerapi -all;'
