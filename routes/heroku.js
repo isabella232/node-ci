@@ -340,8 +340,8 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             '';
-             //'ssh git@heroku.com -v';
+             '' +
+             'ssh git@heroku.com -v';
 
   console.log('Push Command to Heroku: ', cmd);
 
