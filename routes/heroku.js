@@ -232,7 +232,7 @@ exports.catchCommitPayloadv3 = function(req, res) {
       console.log('New Dir', dir)
       var dir = path.resolve(__dirname, '../tmp/' + smRepoName);
       console.log('New Dir 2', dir);
-      
+
       //var dir = GLOBAL.root + '/tmp/' + smRepoName;
 
       console.log('Looking for Local Git Repo', smRepoName)
@@ -295,7 +295,7 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
               'git --git-dir=' + gitDir + '/.git --work-tree=' + gitDir + ' fetch origin';
   } else {
     console.log('Cloning the Repo ' + gitDir);
-    var cmd = 'git clone ' + gitUri + ' ' + gitDir + ';'
+    var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';'
     console.log('Clone Command ' + cmd);
   }
 
