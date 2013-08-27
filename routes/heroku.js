@@ -329,10 +329,10 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   console.log('pushToHeroku', arguments);
 
-  var cmd = 'GIT_WORK_TREE=' + localGitPath + ';\n' +
-            'git --git-dir=' + localGitPath + ' fetch origin;\n' +
-            'git --git-dir=' + localGitPath + ' update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
-            'git --git-dir=' + localGitPath + ' push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
+  var cmd = 'GIT_WORK_TREE=' + localGitPath + '/.git;\n' +
+            'git --git-dir=' + localGitPath + '/.git fetch origin;\n' +
+            'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
+            'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
   console.log('Push Command to Heroku: ', cmd);
 
