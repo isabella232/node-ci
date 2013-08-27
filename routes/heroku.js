@@ -179,9 +179,8 @@ exports.catchCommitPayloadv3 = function(req, res) {
 
   var smRepoName = repo.name;
 
-  var gitURL = 'git@github.com:' + repo.owner.name + '/' + repo.name
-
-  var gitURL = 'https://npr-ci:25thomson@github.com/nprds/composerAPI'
+  // var gitURL = 'git@github.com:' + repo.owner.name + '/' + repo.name
+  var gitURL = 'https://npr-ci:25thomson@github.com/' + repo.owner.name + '/' + repo.name;
 
   console.log('Small Repo Name', smRepoName);
 
