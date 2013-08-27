@@ -177,10 +177,14 @@ exports.catchCommitPayloadv3 = function(req, res) {
   var repo   = load.repository;
   var branch = load.ref.replace('refs/heads/', '').trim();
 
+  var smRepoName = repo.name;
+
   var gitURL = 'git@github.com:' + repo.owner.name + '/' + repo.name
 
   var gitURL = 'https://npr-ci:25thomson@github.com/nprds/composerAPI'
-  
+
+  console.log('Small Repo Name', smRepoName);
+
   console.log('GIT Payload', load);
 
   console.log('GIT URL ' + gitURL);
@@ -196,7 +200,7 @@ exports.catchCommitPayloadv3 = function(req, res) {
 
       appName = appName.substring(0,30);
 
-      console.log('Looking for ' + appName);
+      console.log('App: Looking for ' + appName);
 
       herokuAppGet(appName, function(err, data) {
         if (err) return callback(err);
@@ -219,9 +223,9 @@ exports.catchCommitPayloadv3 = function(req, res) {
       // Set the folder where we might find the repo.
       var repoName = gitURL.split('/')[1];
 
-      var dir = GLOBAL.root + '/tmp/' + repoName;
+      var dir = GLOBAL.root + '/tmp/' + smRepoName;
 
-      console.log('Looking for Local Git Repo')
+      console.log('Looking for Local Git Repo', smRepoName)
 
       cloneFetchGITRepo(gitURL, dir, function(err, data) {
         console.log('Clone/Fetch Result', err, data)
