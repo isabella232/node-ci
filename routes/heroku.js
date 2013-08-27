@@ -329,7 +329,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   console.log('pushToHeroku', arguments);
 
-  var cmd9 = 'ssh -i id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  var cmd = 'ssh -i id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh git@heroku.com -v \n' +
              '' +
