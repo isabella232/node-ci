@@ -5,6 +5,7 @@ var async = require('async');
 var heroku    = require("../heroku");  
 var githubAPI = require('github');
 var moment  = require('moment');
+var fs = require('fs');
 var path = require('path');
 
 /*
