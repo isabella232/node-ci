@@ -329,8 +329,8 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   console.log('pushToHeroku', arguments);
 
-  var cmd = 'ssh -i id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'ssh -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh git@heroku.com -v \n' +
              '' +
              'GIT_WORK_TREE=' + localGitPath + '/.git;\n' +
@@ -338,9 +338,10 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
              'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
              'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
-  var cmd9 = 'ssh -i id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
-            'ssh -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
-            'ssh git@heroku.com -v';
+  var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             '';
+             //'ssh git@heroku.com -v';
 
   console.log('Push Command to Heroku: ', cmd);
 
