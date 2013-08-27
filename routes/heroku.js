@@ -136,7 +136,7 @@ exports.deploy = function(req, res) {
     host:   host,
     port:   port,
     path:   '/build2',
-    timeout: 600000,
+    timeout: 6000000,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -251,9 +251,10 @@ exports.catchCommitPayloadv3 = function(req, res) {
     var herokuGITUri = results.app.git_url;
     var localGitPath = results.gitDir;
     var branchName   = branch;
-
     var sha = load.after;
 
+    // TODO: Make this log to a central location to capture status.
+    
     pushToHeroku(herokuGITUri, localGitPath, branchName, sha, function(err, stdout, stderr) {
       // console.log('STDout', stdout);
       // console.log('STDerr', stderr);
@@ -264,11 +265,10 @@ exports.catchCommitPayloadv3 = function(req, res) {
         stderr: stderr
       };
     
-      console.log('Final Push Data', data);
-      var status = stderr.indexOf('Launching...') > 0;
-
-      res.json({ status: status, data: data });
+      console.log('pushToHeroku Status:', data);
     });
+
+    res.send('Running Push to Heroku.')
   });
 
 }
@@ -299,7 +299,6 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
 
   console.log('Clone Command ' + cmd);
 
-
   var exec = require('child_process').exec;
   exec(cmd, cb);      
 
@@ -321,14 +320,6 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   if (!sha) sha = '';
 
-  console.log('herokuGitUri', herokuGitUri);
-  console.log('localGitPath', localGitPath);
-  console.log('branchName', branchName);
-  console.log('sha', sha);
-  console.log('');
-
-  console.log('pushToHeroku', arguments);
-
   var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
              //'ssh git@heroku.com -v \n' +
@@ -343,6 +334,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   var exec = require('child_process').exec;
   exec(cmd, cb);
+
 }
 
 /*
