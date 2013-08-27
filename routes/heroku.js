@@ -290,26 +290,18 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
   console.log('Looking for ' + gitDir + ' (' + gitUri + ')');
 
   if (require('fs').existsSync(gitDir)) { 
-    console.log('Found a folder with the repo ' + gitDir);
+    console.log('Removing a folder. ' + gitDir);
+    fs.rmdirSync(gitDir)
+  } 
 
-    var cmd = 'GIT_WORK_TREE=' + gitDir + '; ' +
-              'git --git-dir=' + gitDir + '/.git --work-tree=' + gitDir + ' fetch origin';
-  } else {
-    console.log('Cloning the Repo ' + gitDir);
+  var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';' + 
+            'ls ' + gitDir + ' -all;'
 
-    var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';' + 
-               'ls ' + gitDir + ' -all;'
-
-    console.log('what is this:', cmd);
-
-    var cmd9 = 'git clone https://npr-ci:25thomson@github.com/nprds/composerAPI.git /app/tmp/composerapi;' +
-              'ls /app/tmp/composerapi -all;'
-    console.log('Clone Command ' + cmd);
-  }
+  console.log('Clone Command ' + cmd);
 
   var exec = require('child_process').exec;
   exec(cmd, cb);      
-}
+
 
 /*
 
