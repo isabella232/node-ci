@@ -334,6 +334,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
             'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
             'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
+  var cmd = 'ssh git@heroku.com -v'
   console.log('Push Command to Heroku: ', cmd);
 
   var exec = require('child_process').exec;
