@@ -179,6 +179,8 @@ exports.catchCommitPayloadv3 = function(req, res) {
 
   var gitURL = 'git@github.com:' + repo.owner.name + '/' + repo.name
 
+  var gitURL = 'https://npr-ci:25thomson@github.com/nprds/composerAPI'
+  
   console.log('GIT Payload', load);
 
   console.log('GIT URL ' + gitURL);
