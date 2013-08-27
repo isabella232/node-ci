@@ -86,7 +86,6 @@ exports.info = function(req, res) {
     });
 
   } else {
-    console.log('we are here')
     res.render('heroku_info', { data: data }, function(err, html) {
       if (err) return res.render('error', { title: '', message: err.message });
       res.send(html);
@@ -225,17 +224,7 @@ exports.catchCommitPayloadv3 = function(req, res) {
       // Set the folder where we might find the repo.
       var repoName = gitURL.split('/')[1];
 
-      console.log('')
-      console.log('wheat is the global root', GLOBAL.root);
-
-      var dir = path.resolve(__dirname, '/tmp/' + smRepoName);
-
-      console.log('')
-      console.log('New Dir', dir)
       var dir = path.resolve(__dirname, '../tmp/' + smRepoName);
-      console.log('New Dir 2', dir);
-
-      //var dir = GLOBAL.root + '/tmp/' + smRepoName;
 
       console.log('Looking for Local Git Repo', smRepoName)
 
