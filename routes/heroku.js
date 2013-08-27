@@ -228,7 +228,11 @@ exports.catchCommitPayloadv3 = function(req, res) {
 
       var dir = path.resolve(__dirname, '/tmp/' + smRepoName);
 
-            console.log('')
+      console.log('')
+      console.log('New Dir', dir)
+      var dir = path.resolve(__dirname, '../tmp/' + smRepoName);
+      console.log('New Dir 2', dir);
+      
       //var dir = GLOBAL.root + '/tmp/' + smRepoName;
 
       console.log('Looking for Local Git Repo', smRepoName)
