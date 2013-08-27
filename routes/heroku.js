@@ -149,7 +149,7 @@ exports.deploy = function(req, res) {
     var chunkData = '';
     result.on('data', function(chunk) { chunkData = chunkData + chunk; });
     result.on('end', function() {
-      var data = JSON.parse(chunkData);
+      // var data = JSON.parse(chunkData);
 
       res.redirect('/heroku/test?status=1');
       return;
@@ -254,7 +254,7 @@ exports.catchCommitPayloadv3 = function(req, res) {
     var sha = load.after;
 
     // TODO: Make this log to a central location to capture status.
-    
+
     pushToHeroku(herokuGITUri, localGitPath, branchName, sha, function(err, stdout, stderr) {
       // console.log('STDout', stdout);
       // console.log('STDerr', stderr);
