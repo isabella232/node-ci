@@ -295,7 +295,8 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
               'git --git-dir=' + gitDir + '/.git --work-tree=' + gitDir + ' fetch origin';
   } else {
     console.log('Cloning the Repo ' + gitDir);
-    var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';'
+    // var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';'
+    var cmd = 'git clone https://npr-ci:25thomson@github.com/nprds/composerAPI.git /app/tmp/composerAPI'
     console.log('Clone Command ' + cmd);
   }
 
