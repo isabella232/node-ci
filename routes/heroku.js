@@ -320,6 +320,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   if (!sha) sha = 'HEAD';
 
+  console.log('pushToHeroku', arguments)
   var cmd = 'GIT_WORK_TREE=' + localGitPath + ';' +
             'git --git-dir=' + localGitPath + '/.git fetch origin; ' +
             'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';' + 
