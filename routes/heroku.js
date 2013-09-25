@@ -512,14 +512,22 @@ exports.herokuList = function(req, res) {
     var apps = {};
 
     _.each(data, function(o) {
+
       var repo = o.name.split("-");
       if (repo.length > 1 && _.indexOf(repolist, repo[1]) > -1) {
         o.branch = repo[2];
+        
+        o.baseRepo = repo[1];
+        if (o.baseRepo == 'composerapi') o.baseRepo = 'composerAPI';
+        if (o.baseRepo != 'composerAPI') o.baseRepo = '';
+
         var repo_name = repo[1];
         if (!apps[repo_name]) apps[repo_name] = [];
+
         apps[repo_name].push(o);
       } else {
         o.branch = o.name;
+        o.baseRepo = '';
         misc.push(o);
       }
     });

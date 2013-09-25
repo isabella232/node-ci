@@ -25,6 +25,8 @@ block content
             th(width="40%")
              | Branch
             th(width="30%")
+             | Info
+            th(width="30%")
              | Updated
             th(width="10%")
 
@@ -32,11 +34,20 @@ block content
                tr
                 td(colspan="5")
                  | No processes started.
+
             - else
               each app in repo
                tr
                 td 
                   a(href="#{app.web_url}", target="_blank")=app.name
                 td(title=moment(app.updated_at).format("MM/DD/YY HH:mm:ss")) #{moment(app.updated_at).fromNow()}
+                td
+                  - if (app.baseRepo != '')
+                  
+                    a(href='https://magnum.travis-ci.com/nprds/#{app.baseRepo}?branch=#{app.branch}', target="_blank")
+                     img(src='https://magnum.travis-ci.com/nprds/#{app.baseRepo}.png?token=b95uq4JBys2K4qt3wxyL&branch=#{app.branch}', alt='Test Status')
+
+                    a(href='https://coveralls.io/r/nprds/#{app.baseRepo}?branch=#{app.branch}', target="_blank")
+                     img(src='https://coveralls.io/repos/nprds/#{app.baseRepo}/badge.png?branch=#{app.branch}', alt='Coverage Status')
                 td
                   a(class="btn btn-small", href="/heroku/app/#{app.name}/details") Details

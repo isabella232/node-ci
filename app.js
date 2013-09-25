@@ -191,7 +191,8 @@ AppManager = (function() {
     app.post("/heroku/app/:id/collaborators/add", check, routes.heroku.collaboratorAdd );
     app.post("/heroku/app/:id/config-var/add", check, routes.heroku.configAdd );
 
-    app.get("/heroku/apps",        check, routes.heroku.herokuList );
+// Add in the check agin.
+    app.get("/heroku/apps",         routes.heroku.herokuList );
   
     app.get("/heroku/test",        check, routes.heroku.info );
     app.get('/quality/report',     check, routes.quality.list );
