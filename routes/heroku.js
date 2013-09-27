@@ -310,6 +310,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   // Use this in the future. git clone --depth=50 --branch=macrojob git@github.com:nprds/composerAPI.git nprds/composerAPI
 
+  console.log('arg', arguments)
   var Nsha = sha;
   if (!sha) sha = '';
   var moment = require('moment');
@@ -329,8 +330,8 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   var exec = require('child_process').exec;
   exec(cmd2, cb);
-
   return;
+
   var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ./tmp/nprds/composerAPI'
