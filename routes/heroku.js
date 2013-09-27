@@ -308,7 +308,32 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
 */
 var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
+  // Use this in the future. git clone --depth=50 --branch=macrojob git@github.com:nprds/composerAPI.git nprds/composerAPI
+
   if (!sha) sha = '';
+  var moment = require('moment');
+
+  var newPath = 'tmp/' + moment().unix();
+
+  var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri ' ' + newPath +
+             'cd ' + newPath + ' ' + 
+             'git checkout -qf ' + sha +
+             'git push ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
+
+  console.log('New CMD 1', cmd2);
+  console.log('');
+
+  var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri ' ./tmp/nprds/composerAPI'
+             'cd ./tmp/nprds/composerAPI ' +
+             'git checkout -qf ' + sha +
+             'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
+
+  console.log('New CMD 2', cmd2);
+  console.log('');
 
   var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
