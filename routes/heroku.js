@@ -287,7 +287,7 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
   // var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';' + 
   //           'ls ' + gitDir + ' -all;'
   var cmd = 'ls';
-  
+
   console.log('Clone Command ' + cmd);
 
   var exec = require('child_process').exec;
@@ -318,40 +318,50 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   var newPath = 'tmp/' + moment().unix();
 
-  var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath + ' \n' +
-             'cd ' + newPath + ';\n' + 
-             'git checkout -qf ' + Nsha + '\n' +
-             'git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
-             'git push ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
+  // var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  //            'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  //            'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath + ' \n' +
+  //            'cd ' + newPath + ';\n' + 
+  //            'git checkout -qf ' + Nsha + '\n' +
+  //            'git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
+  //            'git push ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
-  console.log('New CMD 1', cmd2);
-  console.log('');
+  // console.log('New CMD 1', cmd2);
+  // console.log('');
 
-  var exec = require('child_process').exec;
-  exec(cmd2, cb);
-  return;
+  // var exec = require('child_process').exec;
+  // exec(cmd2, cb);
+  // return;
 
-  var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ./tmp/nprds/composerAPI'
-             'cd ./tmp/nprds/composerAPI ' +
-             'git checkout -qf ' + sha +
-             'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
+  // var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  //            'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  //            'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ./tmp/nprds/composerAPI'
+  //            'cd ./tmp/nprds/composerAPI ' +
+  //            'git checkout -qf ' + sha +
+  //            'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
-  console.log('New CMD 2', cmd2);
-  console.log('');
+  // console.log('New CMD 2', cmd2);
+  // console.log('');
+
+  // Working Copy
+  // var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  //            'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+  //            //'ssh git@heroku.com -v \n' +
+  //            'git --git-dir=' + localGitPath + '/.git log -4;\n' +
+  //            '' +
+  //            'GIT_WORK_TREE=' + localGitPath + '/.git;\n' +
+  //            'git --git-dir=' + localGitPath + '/.git fetch origin;\n' +
+  //            'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
+  //            'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
   var cmd = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             //'ssh git@heroku.com -v \n' +
-             'git --git-dir=' + localGitPath + '/.git log -4;\n' +
-             '' +
-             'GIT_WORK_TREE=' + localGitPath + '/.git;\n' +
-             'git --git-dir=' + localGitPath + '/.git fetch origin;\n' +
-             'git --git-dir=' + localGitPath + '/.git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
-             'git --git-dir=' + localGitPath + '/.git push  ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
+            'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
+            'git --git-dir=' + localGitPath + '/.git log -4;\n' +
+            'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath + ' \n' +
+            '' +
+            'cd ' + newPath + ';\n' + 
+            'git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
+            'git push ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
   console.log('Push Command to Heroku: ', cmd);
 
