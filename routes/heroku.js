@@ -318,13 +318,18 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
   var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath +
-             'cd ' + newPath + ' ' + 
-             'git checkout -qf ' + sha +
+             'cd ' + newPath + ';\n' + 
+             'git checkout -qf ' + sha + '\n' +
+             'git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
              'git push ' + herokuGitUri + ' refs/heads/' + branchName + ':master --force';
 
   console.log('New CMD 1', cmd2);
   console.log('');
 
+  var exec = require('child_process').exec;
+  exec(cmd2, cb);
+
+  return;
   var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ./tmp/nprds/composerAPI'
