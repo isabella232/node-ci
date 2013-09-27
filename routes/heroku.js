@@ -319,7 +319,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
 
   var cmd2 = 'ssh -i /app/.ssh/id_rsa -o StrictHostKeyChecking=no git@heroku.com \n' + 
              'ssh -i /app/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@heroku.com \n' + 
-             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath +
+             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath + ' \n' +
              'cd ' + newPath + ';\n' + 
              'git checkout -qf ' + Nsha + '\n' +
              'git update-ref refs/heads/' + branchName + ' ' + sha + ';\n' + 
