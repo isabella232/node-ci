@@ -359,6 +359,7 @@ var pushToHeroku = function(herokuGitUri, localGitPath, branchName, sha, cb) {
             'git --git-dir=' + localGitPath + '/.git log -4;\n' +
             'git clone --depth=50 --branch=' + branchName + ' ' + herokuGitUri + ' ' + newPath + ' \n' +
             '' +
+            'pwd;\n' + 
             'cd ' + newPath + ';\n' + 
             'git branch -v;\n' +
             'git push ' + herokuGitUri + ' refs/heads/HEAD:master --force';
