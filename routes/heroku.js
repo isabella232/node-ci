@@ -279,14 +279,15 @@ var cloneFetchGITRepo = function(gitUri, gitDir, cb) {
 
   console.log('Looking for ' + gitDir + ' (' + gitUri + ')');
 
-  if (require('fs').existsSync(gitDir)) { 
-    console.log('Found a folder with the repo ' + gitDir);
-    fs.rmdirSync(gitDir)
-  } 
+  // if (require('fs').existsSync(gitDir)) { 
+  //   console.log('Found a folder with the repo ' + gitDir);
+  //   fs.rmdirSync(gitDir)
+  // } 
 
-  var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';' + 
-            'ls ' + gitDir + ' -all;'
-
+  // var cmd = 'git clone ' + gitUri + '.git ' + gitDir + ';' + 
+  //           'ls ' + gitDir + ' -all;'
+  var cmd = 'ls';
+  
   console.log('Clone Command ' + cmd);
 
   var exec = require('child_process').exec;
