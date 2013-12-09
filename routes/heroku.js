@@ -1,12 +1,13 @@
-var http  = require('http');
-var https = require('https');
-var _     = require('underscore');
-var async = require('async');
-var heroku    = require("../heroku");  
-var githubAPI = require('github');
-var moment  = require('moment');
-var fs = require('fs');
-var path = require('path');
+var http  = require('http')
+var https = require('https')
+var _     = require('underscore')
+var async = require('async')
+var heroku    = require("../heroku")
+var githubAPI = require('github')
+var moment  = require('moment')
+var fs = require('fs')
+var path = require('path')
+var async = require('async')
 
 /*
   This function will parse a github path into its parts.
@@ -448,32 +449,48 @@ var herokuAppPost = function(opts, cb) {
 
 exports.herokuDetails = function(req, res) {
 
-  var async = require("async");
-
   async.parallel({
     app: function(callback) {
       heroku.apps.get({ id: req.params.id}, function(err, data) {
-        callback(err, data);
+        callback(err, data)
       });
     },
     users: function(callback) {
       heroku.apps.collaborators({ id: req.params.id }, function(err, data) {
-          callback(err, data);
+          callback(err, data)
       });
     },
     variables: function(callback) {
       heroku.apps.configs({ id: req.params.id }, function(err, data) {
-          callback(err, data);
+          callback(err, data)
       });
     },
     addons: function(callback) {
       heroku.apps.addons({ id: req.params.id }, function(err, data) {
-          callback(err, data);
+          callback(err, data)
       });
     }
   }, function(err, data) {
-    res.render('heroku_details', { app_name: req.params.id, data: data });
-  });
+ 
+    if (err) {
+      return res.render('error', { message: err.message, title: '' })
+    }
+    
+    res.render('heroku_details', { app_name: req.params.id, data: data }, function(err, html) {
+      if (err) return res.render('error', { message: err.message, title: '' })
+
+      res.send(html)
+    })
+  })
+
+}
+
+exports.herokuDeleteApp = function(req, res) {
+
+  heroku.apps.destroy({ id: req.params.id }, function(err, data) {
+
+    res.redirect('heroku/apps')
+  })
 
 }
 
@@ -510,6 +527,8 @@ exports.herokuList = function(req, res) {
   var misc = [];
 
   heroku.apps.all({}, function(err, data) {
+    if (err) return res.render('error', { title: 'Error with Heroku', message: err.message})
+
     var apps = {};
 
     _.each(data, function(o) {
@@ -535,8 +554,13 @@ exports.herokuList = function(req, res) {
 
     apps.others = misc;
 
-    res.render('heroku_apps', { data: apps });
-  });
+    res.render('heroku_apps', { data: apps }, function(err, html) {
+      if (err) res.render('error', { message: 'Got an issue'})
+
+      res.send(html)
+    })
+
+  })
 
 }
 

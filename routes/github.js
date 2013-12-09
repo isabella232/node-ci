@@ -13,7 +13,7 @@ if (GITHUB_PREFIX) GITHUB_PREFIX = GITHUB_PREFIX + "_";
 var GITHUB_CLIENTID      = process.env[ GITHUB_PREFIX + "GITHUB_CLIENTID"];
 var GITHUB_CLIENT_SECRET = process.env[ GITHUB_PREFIX + "GITHUB_CLIENT_SECRET"];
 
-console.log("GITHUB_PREFIX", GITHUB_PREFIX, GITHUB_CLIENTID);
+console.log("Using GITHUB_PREFIX", GITHUB_PREFIX, ', ID:', GITHUB_CLIENTID);
 
 exports.login = function(req, res) { 
   var url = 'https://github.com/login/oauth/authorize?state=333&client_id=' + GITHUB_CLIENTID + '&scope=user,repo';

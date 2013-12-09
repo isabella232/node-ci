@@ -186,6 +186,7 @@ AppManager = (function() {
     app.get("/heroku/app/:id/config", check, routes.heroku.herokuConfigs );
     app.get("/heroku/app/:id/contributors", check, routes.heroku.herokuContributors );
     app.get("/heroku/app/:id/addons", check, routes.heroku.herokuAddons );
+    app.get("/heroku/app/:id/destroy", check, routes.heroku.herokuDeleteApp );
 
     app.get("/heroku/app/:id/collaborator/:cid/delete", check, routes.heroku.collaboratorRemove );
     app.post("/heroku/app/:id/collaborators/add", check, routes.heroku.collaboratorAdd );

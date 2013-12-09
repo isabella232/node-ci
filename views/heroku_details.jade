@@ -3,6 +3,12 @@ extends layout
 block header
 
   script
+    function destroyApp(url) {
+      if (confirm('Do you really want to destroy this heroku app instance?')) {
+        document.location=url;
+      }
+    }
+    
     function removeConfig(key) {
       if (confirm('Remove this Config Var?')) {
         $.ajax({
@@ -172,6 +178,8 @@ block content
               button(href="#addConfig", role="button", class="btn btn-mini btn-primary", data-toggle="modal") Add Config Var
 
         a(class="btn btn-warning", href="/heroku/apps") << Return to App List
+        &nbsp;
+        a(class="btn btn-primary", onclick="destroyApp('/heroku/app/#{data.app.name}/destroy')") Delete Application
 
         div(id="addCollaborator", class="modal hide fade", tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
           div(class="modal-header")

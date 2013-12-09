@@ -112,6 +112,13 @@
                 "$id": null
             }
         },
+        "destroy": {
+            "url": "/apps/:id",
+            "method": "DELETE",
+            "params": {
+                "$id": null
+            }
+        },
         "configs": {
             "url": "/apps/:id/config-vars",
             "method": "GET",
